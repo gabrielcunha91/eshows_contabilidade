@@ -34,7 +34,7 @@ date_input = st.date_input("Período",
 
 # Convertendo as datas de input para datetime
 date_input_start = pd.to_datetime(date_input[0])
-date_input_end = pd.to_datetime(date_input[1])
+date_input_end = pd.to_datetime(date_input[1]) + pd.Timedelta(hours=23, minutes=59, seconds=59)
 
 mask = (df_faturam_fiscal["Data_Show"] >= date_input_start) & (df_faturam_fiscal["Data_Show"] <= date_input_end)
 df_faturam_fiscal_filtrado = df_faturam_fiscal[mask]
