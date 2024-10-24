@@ -129,7 +129,7 @@ casas = sorted(df_view_faturam_por_grupo["Casa"].unique())
 casas_padrao = casas
 casa = st.multiselect("Casas", casas, default=casas_padrao)
 
-df_view_faturam_por_casa = df_view_faturam_por_grupo[df_view_faturam_por_grupo["Casa"].isin(casa)]
+df_view_faturam_por_casa = df_view_faturam_ajustado[df_view_faturam_ajustado["Casa"].isin(casa)]
 
 # Filtrando Data
 today = datetime.datetime.now()
@@ -192,7 +192,7 @@ df_view_faturam_proposta = df_view_faturam_eshows[["p_ID", "Casa", "UF", "Cidade
                                                    "Valor_Liquido", "Comissao_Eshows_B2B", "Comissao_Eshows_B2C", "Taxa_Adiantamento",
                                                    "Curadoria", "SAAS_Percentual", "SAAS_Mensalidade", "Taxa_Emissao_NF", "Faturam_Total" ,"KeyAccount"]]
 
-df_view_faturam_proposta = df_view_faturam_proposta[df_view_faturam_proposta["Grupo"].isin(grupo)]
+df_view_faturam_proposta = df_view_faturam_proposta[df_view_faturam_proposta["Casa"].isin(casa)]
 
 df_view_faturam_proposta = df_view_faturam_proposta[mask]
 
