@@ -27,4 +27,31 @@ def export_to_excel(df, sheet_name, excel_filename):
 
   wb.save(excel_filename)
 
+
+def format_brazilian(num):
+  try:
+    num = float(num)
+    return f"{num:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+  except (ValueError, TypeError):
+    return num
+
+def format_columns_brazilian(df, numeric_columns):
+  for col in numeric_columns:
+    if col in df.columns:
+      df[col] = df[col].apply(format_brazilian)
+  return df
+
+
+def format_percentage(num):
+  try:
+    num = float(num)
+    formatted_num = f"{num * 100:,.2f}"  # Multiplica por 100 e formata
+    return f"{formatted_num.replace(',', 'X').replace('.', ',').replace('X', '.')}%"  # Formata como percentual
+  except (ValueError, TypeError):
+    return num  # Retorna o valor original em caso de erro
   
+def format_columns_percentage(df, numeric_columns):
+  for col in numeric_columns:
+    if col in df.columns:
+      df[col] = df[col].apply(format_percentage)
+  return df  
