@@ -103,6 +103,15 @@ def run():
         return df_faturam_fiscal
     df_faturam_fiscal = faturam_fiscal()
 
+    def diferencas_faturam_fiscal():
+        result, column_names = execute_query(GET_DIFERENCAS_FATURAM_FISCAL, conn_eshows)
+        df_diferencas_faturam_fiscal = pd.DataFrame(result, columns=column_names)           
+    
+        df_diferencas_faturam_fiscal['Data_Show'] = pd.to_datetime(df_diferencas_faturam_fiscal['Data_Show'])
+
+        return df_diferencas_faturam_fiscal
+    df_diferencas_faturam_fiscal = diferencas_faturam_fiscal()
+
     def custos_internos():
         result, column_names = execute_query(GET_CUSTOS_INTERNOS, conn_grupoe)
         df_custos_internos = pd.DataFrame(result, columns=column_names)
@@ -128,6 +137,9 @@ def run():
     if "faturam_fiscal" not in st.session_state:
         st.session_state["faturam_fiscal"] = df_faturam_fiscal
 
+    if "diferencas_faturam_fiscal" not in st.session_state:
+        st.session_state["diferencas_faturam_fiscal"] = df_diferencas_faturam_fiscal        
+
 if __name__ == "__main__":
      ######## Config Pag ##########
     st.set_page_config(
@@ -147,8 +159,5 @@ if __name__ == "__main__":
         st.stop()
     else:
         run()
-
-
-
 
 
