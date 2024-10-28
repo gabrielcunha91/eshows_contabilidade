@@ -159,3 +159,36 @@ LEFT JOIN T_CLASSIFICACAO_PRIMARIA tcp ON (tcpp.CLASSIFICACAO_PRIMARIA = tcp.ID)
 LEFT JOIN T_CATEGORIAS_DE_CUSTO tcdc2 ON (tcp.FK_CATEGORIA_CUSTO = tcdc2.ID)
 """
 
+GET_DIFERENCAS_FATURAM_FISCAL = """
+SELECT
+vfe.p_ID AS 'tp_ID',
+round(vfe.Valor_Total, 2) as 'Valor_Total',
+round(vfe.Valor_Bruto, 2) as 'Valor_Bruto',
+round(vfe.Valor_Liquido, 2) as 'Valor_Liquido',
+vfe.Casa as 'Casa',
+vfe.Artista as 'Artista',
+vfe.`Data` as 'Data_Show',
+round(vfe.Comissao_Eshows_B2B, 2) as 'Comissao_Eshows_B2B',
+round(vfe.Comissao_Eshows_B2C, 2) as 'Comissao_Eshows_B2C',
+round(vfe.Taxa_Adiantamento, 2) as 'Taxa_Adiantamento',
+round(vfe.Curadoria, 2) as 'Curadoria',
+round(vfe.SAAS_Percentual, 2) as 'Saas_Percentual',
+round(vfe.SAAS_Mensalidade, 2) as 'Saas_Mensalidade',
+ROUND((vfe.Comissao_Eshows_B2B + vfe.Comissao_Eshows_B2C + vfe.Taxa_Adiantamento + vfe.Curadoria + vfe.SAAS_Percentual + vfe.SAAS_Mensalidade),2) AS 'Faturam_Gerencial',
+round(vffe.NF_Pelo_Artista, 2) as 'NF_Pelo_Artista',
+round(vffe.NF_Contra_Artista, 2) as 'NF_Contra_Artista',
+round(vffe.NF_Contra_Contratante, 2) as 'NF_Contra_Contratante',
+round(vffe.Faturamento_Total, 2) as 'Faturam_Fiscal',
+CASE 
+	WHEN vffe.tf_ID IS NULL THEN 'Nao_Faturado_NF'
+	ELSE 'Faturado_NF'
+END AS 'Status_Faturamento_Fiscal',
+CASE 
+	WHEN vffe.NF_Pelo_Artista > 0 THEN 0
+	ELSE round(((vfe.Comissao_Eshows_B2B + vfe.Comissao_Eshows_B2C + vfe.Taxa_Adiantamento + vfe.Curadoria + vfe.SAAS_Percentual + vfe.SAAS_Mensalidade) - vffe.Faturamento_Total), 2)
+END AS 'Diferenca_Gerencial_Fiscal'
+FROM View_Faturam_Eshows vfe
+LEFT JOIN View_Faturam_Fiscal_Eshows vffe ON (vfe.p_ID = vffe.tp_ID)
+WHERE vfe.`Data` >= '2024-01-01 00:00:00'
+"""
+
