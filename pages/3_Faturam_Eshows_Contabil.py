@@ -13,6 +13,7 @@ st.set_page_config(
 ### Puxando Dados ###
 df_faturam_fiscal = st.session_state["faturam_fiscal"]
 
+df_diferencas_faturam_fiscal = st.session_state["diferencas_faturam_fiscal"]
 
 # Filtrando Data
 today = datetime.datetime.now()
@@ -60,3 +61,25 @@ if st.button('Baixar Excel'):
       mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )    
 
+
+##### Diferenças Faturamento Gerencial do Faturamento Fiscal
+mask_2 = (df_diferencas_faturam_fiscal["Data_Show"] >= date_input_start) & (df_diferencas_faturam_fiscal["Data_Show"] <= date_input_end)
+df_diferencas_faturam_fiscal_filtrado = df_diferencas_faturam_fiscal[mask_2]
+
+st.markdown("---")  # Isso cria uma linha divisória simples
+st.markdown("<u>Propostas Não-Faturadas (NFs)</u>", unsafe_allow_html=True)
+
+df_diferencas_faturam_fiscal_nao_faturados = df_diferencas_faturam_fiscal_filtrado[
+    (df_diferencas_faturam_fiscal_filtrado['Status_Faturamento_Fiscal'] == 'Nao_Faturado_NF') & 
+    (df_diferencas_faturam_fiscal_filtrado['Faturam_Gerencial'] > 0)
+]
+df_diferencas_faturam_fiscal_nao_faturados
+
+
+st.markdown("---")  # Isso cria uma linha divisória simples
+st.markdown("<u>Diferenças do Faturamento Fiscal em Relação ao Faturamento Gerencial</u>", unsafe_allow_html=True)
+
+df_diferencas_faturam_fiscal_nao_zerados = df_diferencas_faturam_fiscal_filtrado[
+   (df_diferencas_faturam_fiscal_filtrado['Diferenca_Gerencial_Fiscal'] > 1) | (df_diferencas_faturam_fiscal_filtrado['Diferenca_Gerencial_Fiscal'] < -1)
+]
+df_diferencas_faturam_fiscal_nao_zerados
