@@ -131,7 +131,7 @@ st.data_editor(
     }
 )
 
-
+st.markdown("---")  # Isso cria uma linha divisória simples
 
 # Filtando grupos
 grupos = sorted(df_view_faturam_ajustado["Grupo"].unique())
