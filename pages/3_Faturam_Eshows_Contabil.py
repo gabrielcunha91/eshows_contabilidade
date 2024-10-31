@@ -70,8 +70,8 @@ st.markdown("---")  # Isso cria uma linha divisória simples
 st.markdown("<u>Propostas Não-Faturadas (NFs)</u>", unsafe_allow_html=True)
 
 df_diferencas_faturam_fiscal_nao_faturados = df_diferencas_faturam_fiscal_filtrado[
-    (df_diferencas_faturam_fiscal_filtrado['Status_Faturamento_Fiscal'] == 'Nao_Faturado_NF') & 
-    (df_diferencas_faturam_fiscal_filtrado['Faturam_Gerencial'] > 0)
+    ((df_diferencas_faturam_fiscal_filtrado['Status_Faturamento_Fiscal'] == 'Nao_Faturado_NF') & 
+    (df_diferencas_faturam_fiscal_filtrado['Faturam_Gerencial'] > 0)) | (df_diferencas_faturam_fiscal_filtrado['Erro_NF'] != "Sem_Erros")
 ]
 df_diferencas_faturam_fiscal_nao_faturados
 
