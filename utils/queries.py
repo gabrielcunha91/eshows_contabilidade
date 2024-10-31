@@ -168,6 +168,7 @@ round(vfe.Valor_Liquido, 2) as 'Valor_Liquido',
 vfe.Casa as 'Casa',
 vfe.Artista as 'Artista',
 vfe.`Data` as 'Data_Show',
+vfe.Data_Pagamento as 'Data_Pagamento',
 round(vfe.Comissao_Eshows_B2B, 2) as 'Comissao_Eshows_B2B',
 round(vfe.Comissao_Eshows_B2C, 2) as 'Comissao_Eshows_B2C',
 round(vfe.Taxa_Adiantamento, 2) as 'Taxa_Adiantamento',
@@ -181,8 +182,13 @@ round(vffe.NF_Contra_Contratante, 2) as 'NF_Contra_Contratante',
 round(vffe.Faturamento_Total, 2) as 'Faturam_Fiscal',
 CASE 
 	WHEN vffe.tf_ID IS NULL THEN 'Nao_Faturado_NF'
+    WHEN vffe.Erro_NF IS NOT NULL THEN 'Erro_na_Emissao_NF'
 	ELSE 'Faturado_NF'
 END AS 'Status_Faturamento_Fiscal',
+CASE
+	WHEN vffe.Erro_NF IS NOT NULL THEN vffe.Erro_NF
+	ELSE 'Sem_Erros'
+END as 'Erro_NF',
 CASE 
 	WHEN vffe.NF_Pelo_Artista > 0 THEN 0
 	ELSE round(((vfe.Comissao_Eshows_B2B + vfe.Comissao_Eshows_B2C + vfe.Taxa_Adiantamento + vfe.Curadoria + vfe.SAAS_Percentual + vfe.SAAS_Mensalidade) - vffe.Faturamento_Total), 2)
