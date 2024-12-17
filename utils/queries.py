@@ -21,6 +21,7 @@ WITH propostas_faturamento AS (
         tp.ID AS proposta_ID,
         tf.ID AS fatura_ID,
         MAX(tpf2.DATA_VENCIMENTO) AS vencimento_ultima_parcela,
+        MAX(tpf2.DATA_COMPENSACAO) AS data_compensacao_ultima_parcela,
         COUNT(tpf2.ID) AS numero_parcelas,
         COUNT(CASE WHEN tpf2.STATUS = 'Received' THEN tpf2.ID END) AS numero_parcelas_pagas,
         CASE
@@ -55,6 +56,7 @@ SELECT
     pf.vencimento_ultima_parcela AS 'Vencimento_Ultima_Parcela',
     pf.numero_parcelas AS 'Numero_Parcelas',
     pf.numero_parcelas_pagas AS 'Numero_Parcelas_Pagas',
+    pf.data_compensacao_ultima_parcela AS 'Data_Compensacao_Ultima_Parcela',
     pf.Status_Recebimento AS 'Status_Recebimento',
     MAX(DATE(tp.DATA_PAGAMENTO)) AS 'Data_Pgto_Artista',
     MAX(tp.VALOR_BRUTO) AS 'Valor_Bruto',
