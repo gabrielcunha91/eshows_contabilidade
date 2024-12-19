@@ -77,6 +77,8 @@ SELECT
      + MAX(tf.FATURAM_SAAS_PERCENTUAL)
      + MAX(tf.FATURAM_SAAS_MENSALIDADE)
      + MAX(tf.FATURAM_CURADORIA)) AS 'Faturamento_Total',
+    MAX(tp.RETENCAO_VALOR) AS 'Retencao_ISS',
+    MAX(tp.VALOR_TOTAL) AS 'Valor_Total_Cobranca',
     MAX(tf.DATA_PROCESSADO_NOTA) AS 'Data_Processam_NF',
     MAX(SUBSTRING_INDEX(SUBSTRING_INDEX(tf.NOTA_URL_PDF_PREFEITURA, 'nf=', -1), '&verificacao', 1)) AS 'Numero_NF_Eshows',
     MAX(tf.NOTA_URL_PDF_PREFEITURA) AS 'Link_NF_Eshows',
