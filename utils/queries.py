@@ -59,6 +59,7 @@ SELECT
     pf.data_compensacao_ultima_parcela AS 'Data_Compensacao_Ultima_Parcela',
     pf.Status_Recebimento AS 'Status_Recebimento',
     MAX(DATE(tp.DATA_PAGAMENTO)) AS 'Data_Pgto_Artista',
+    MAX(tp.VALOR_ARTISTA_RECEBIMENTO) AS 'Valor_Recebimento_Artista',
     MAX(tp.VALOR_BRUTO) AS 'Valor_Bruto',
     MAX(tp.VALOR_LIQUIDO) AS 'Valor_Liquido',
     MAX(tf.FATURAM_COMISSAO_ARTISTA) AS 'Faturam_Comissao_Artista',
